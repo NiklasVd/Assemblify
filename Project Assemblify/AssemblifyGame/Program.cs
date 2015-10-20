@@ -26,13 +26,12 @@ namespace AssemblifyGame
         [STAThread]
         static void Main()
         {
-            Debug.Log("Assemblify Client (Version: " + Properties.Resources.Version +
-                "-" + Properties.Resources.Phase + ")");
+            Debug.Log("Assemblify Client (Version: " + Properties.Resources.Version + ")");
 
             CheckVersion();
             EvaluateCommandLineArgs(Environment.GetCommandLineArgs());
 
-            using (var game = new Game())
+            using (var game = new AssemblifyGame())
             {
                 game.Exiting += OnGameExiting;
                 game.Run();
@@ -81,7 +80,7 @@ namespace AssemblifyGame
         private static void OnGameExiting(object sender, EventArgs e)
         {
             // Send telemetry here
-            Debug.StoreLog("debug.log", IsDebugMode);
+            Debug.StoreLog("debug.log", IsDebugMode); // Always true instead of IsDebugMode?
         }
     }
 #endif

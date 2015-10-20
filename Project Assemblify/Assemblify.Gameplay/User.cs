@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assemblify.Game
+namespace Assemblify.Gameplay
 {
     [Serializable]
     public class User

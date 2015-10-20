@@ -18,7 +18,7 @@ namespace Assemblify.Network
         {
             // Put this into a seperate initialize method to stop first use awaking (first method call is slow)?
             var packetTypes = Assembly.GetAssembly(typeof(IPacket)).GetTypes()
-                .Where(t => t.GetInterface(typeof(IPacket).Name) != null && t.IsValueType);
+                .Where(t => t.GetInterface(typeof(IPacket).Name) != null);
 
             serializer = new Serializer(packetTypes);
         }

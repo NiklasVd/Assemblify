@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assembly.cs" />
+    <Compile Include="GameNetworkResources.cs" />
+    <Compile Include="GameServerSettings.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Player\PlayerActor.cs" />
     <Compile Include="Player\PlayerMovementComponent.cs" />

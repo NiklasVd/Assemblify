@@ -25,9 +25,9 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Player 1.png
 
-#begin Fonts/Standard Font.spritefont
+#begin Fonts/Courier New.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
-/build:Fonts/Standard Font.spritefont
+/build:Fonts/Courier New.spritefont
 

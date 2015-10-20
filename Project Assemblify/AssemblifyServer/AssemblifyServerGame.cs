@@ -1,45 +1,52 @@
-﻿using Assemblify.Core;
-using Assemblify.Game;
+﻿using System;
+using Assemblify.Core;
 using Assemblify.Gameplay;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 
-namespace AssemblifyGame
+namespace AssemblifyServer
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game : Microsoft.Xna.Framework.Game
+    public class AssemblifyServerGame : Game
     {
-        public AssemblifyGameCenter gameCenter;
-        public SpriteFont debugFont; // Courier New
+        public AssemblifyServerGameCenter gameCenter;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        public Game()
+        private SpriteFont debugFont;
+
+        public AssemblifyServerGame()
         {
-            graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this); 
 
-            graphics.PreferredBackBufferWidth = 1240;
-            graphics.PreferredBackBufferHeight = 840;
-            graphics.ApplyChanges();
-
+            //graphics.PreferredBackBufferWidth = 1240;
+            //graphics.PreferredBackBufferHeight = 840;
+            //graphics.ApplyChanges();
+            
             Content.RootDirectory = "Content";
+            gameCenter = new AssemblifyServerGameCenter();
         }
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
-        /// related content. Calling base.Initialize will enumerate through any components
+        /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
         {
             gameCenter.Initialize();
             base.Initialize();
+        }
+
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+            gameCenter.Exit();
+            base.OnExiting(sender, args);
         }
 
         /// <summary>
@@ -50,8 +57,6 @@ namespace AssemblifyGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            gameCenter.LoadContent(Content);
             debugFont = Content.Load<SpriteFont>("Fonts/Courier New");
         }
 
@@ -61,8 +66,6 @@ namespace AssemblifyGame
         /// </summary>
         protected override void UnloadContent()
         {
-            // Content.Unload(); call?
-            base.UnloadContent();
         }
 
         /// <summary>
@@ -86,7 +89,6 @@ namespace AssemblifyGame
 
             gameCenter.Draw(gameTime, spriteBatch);
             DrawLogMessages();
-
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -94,21 +96,18 @@ namespace AssemblifyGame
 
         private void DrawLogMessages()
         {
-            if (Program.IsDebugMode)
+            var logMessages = Debug.LogMessages;
+            var position = new Vector2(10, 10);
+            const float yAdditive = 20;
+
+            for (int i = 0; i < 5; i++)
             {
-                var logMessages = Debug.LogMessages;
-                var position = new Vector2(10, 10);
-                const float yAdditive = 20;
+                if (logMessages.Count <= i)
+                    break;
+                var logMessage = logMessages[i];
 
-                for (int i = 0; i < 5; i++)
-                {
-                    if (logMessages.Count <= i)
-                        break;
-                    var logMessage = logMessages[i];
-
-                    spriteBatch.DrawString(debugFont, logMessage.ToString(), position, Color.White);
-                    position.Y += yAdditive;
-                }
+                spriteBatch.DrawString(debugFont, logMessage.ToString(), position, Color.White);
+                position.Y += yAdditive;
             }
         }
     }

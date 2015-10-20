@@ -28,6 +28,8 @@ namespace Assemblify.Gameplay
 
         protected override void OnCreate()
         {
+            tag |= ActorTypeTag.Content;
+
             renderer = AddComponent<RendererComponent>();
             collider = AddComponent<ColliderComponent>();
 

@@ -5,21 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assemblify.Game
+namespace Assemblify.Gameplay
 {
     [Serializable]
     public class Player
     {
-        public readonly Color color;
-        public readonly Guid localId;
+        public readonly Vector3 color;
         public readonly User userInfo;
 
         public Team team;
 
-        public Player(Color color, Guid localId, User userInfo, Team team)
+        public Player(Vector3 color, User userInfo, Team team)
         {
             this.color = color;
-            this.localId = localId;
             this.userInfo = userInfo;
             this.team = team;
         }

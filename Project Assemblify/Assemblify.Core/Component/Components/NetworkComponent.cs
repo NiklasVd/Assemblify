@@ -106,7 +106,7 @@ namespace Assemblify.Core
         // Extrapolate
         private void ExtrapolateFromTransformStateBuffer(GameTime gameTime)
         {
-            // TODO: Implement extrapolation (french curve seems interesting as well)
+            // TODO: Implement extrapolation (french curve seems interesting)
             // x = (x2 - x1) / dt * t + x1
             // y = (y2 - y1) / dt * t + y1
         }

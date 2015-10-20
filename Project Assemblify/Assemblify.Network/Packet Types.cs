@@ -20,6 +20,7 @@ namespace Assemblify.Network
         AnswerHandshake,
         WorldSnapshot,
         Command,
-        State
+        State,
+        PlayerChange
     }
 }

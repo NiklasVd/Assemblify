@@ -119,6 +119,6 @@
   </resheader>
   <data name="Version" xml:space="preserve">
     <value>0.1.0-dev</value>
-    <comment>The current version of the Assemblify game.</comment>
+    <comment>The current version of the Assemblify server.</comment>
   </data>
 </root>

@@ -1,4 +1,4 @@
-﻿using Assemblify.Game;
+﻿using Assemblify.Gameplay;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,25 +8,67 @@ using System.Text;
 namespace Assemblify.Network
 {
     [Serializable]
-    public struct ServerAnswerHandshakePacket : IServerPlayPacket
+    public struct ServerPlayAnswerHandshakePacket : IServerPlayPacket
     {
-        public readonly bool accepted;
+        public readonly AcceptMode acceptMode;
         public readonly Player[] players;
+        public readonly GameServerSettings settings;
 
         public ServerPlayPacketType Type
         {
             get { return ServerPlayPacketType.AnswerHandshake; }
         }
 
-        public ServerAnswerHandshakePacket(bool accepted, Player[] players = null)
+        public ServerPlayAnswerHandshakePacket(AcceptMode acceptMode, Player[] players = null, GameServerSettings settings = null)
         {
-            this.accepted = accepted;
+            this.acceptMode = acceptMode;
             this.players = players;
+            this.settings = settings;
+        }
+
+        [Serializable]
+        public enum AcceptMode : byte
+        {
+            Success,
+            WrongPassword,
+            ServerFull,
+            InternalError
         }
     }
 
     [Serializable]
-    public class ServerWorldSnapshotPacket : IServerPlayPacket
+    public class ServerPlayPlayerChangePacket : IServerPlayPacket
+    {
+        public readonly ChangeMode mode;
+
+        public readonly Player added;
+        public readonly Player updated;
+        public readonly Guid removedId;
+
+        public ServerPlayPacketType Type
+        {
+            get { return ServerPlayPacketType.PlayerChange; }
+        }
+
+        public ServerPlayPlayerChangePacket(ChangeMode mode, Player added = null, Player updated = null, Guid removedId = default(Guid))
+        {
+            this.mode = mode;
+            this.added = added;
+            this.updated = updated;
+            this.removedId = removedId;
+        }
+
+        [Serializable]
+        public enum ChangeMode : byte
+        {
+            Add,
+            Update,
+            Remove
+        }
+    }
+
+    [Serializable]
+    public class ServerPlayWorldSnapshotPacket : IServerPlayPacket
     {
         public readonly List<SnapshotItem> snapshots;
 
@@ -35,7 +77,7 @@ namespace Assemblify.Network
             get { return ServerPlayPacketType.WorldSnapshot; }
         }
 
-        public ServerWorldSnapshotPacket(List<SnapshotItem> snapshots)
+        public ServerPlayWorldSnapshotPacket(List<SnapshotItem> snapshots)
         {
             this.snapshots = snapshots;
         }
@@ -55,7 +97,7 @@ namespace Assemblify.Network
     }
 
     [Serializable]
-    public class ServerCommandPacket : IServerPlayPacket
+    public class ServerPlayCommandPacket : IServerPlayPacket
     {
         public readonly List<Command> commands;
 
@@ -64,7 +106,7 @@ namespace Assemblify.Network
             get { return ServerPlayPacketType.Command; }
         }
 
-        public ServerCommandPacket(List<Command> commands)
+        public ServerPlayCommandPacket(List<Command> commands)
         {
             this.commands = commands;
         }
@@ -77,7 +119,7 @@ namespace Assemblify.Network
     }
 
     [Serializable]
-    public class ServerStatePacket : IServerPlayPacket
+    public class ServerPlayStatePacket : IServerPlayPacket
     {
         public readonly List<StateItem> states;
 
@@ -86,7 +128,7 @@ namespace Assemblify.Network
             get { return ServerPlayPacketType.State; }
         }
 
-        public ServerStatePacket(List<StateItem> states)
+        public ServerPlayStatePacket(List<StateItem> states)
         {
             this.states = states;
         }

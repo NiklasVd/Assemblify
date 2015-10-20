@@ -13,12 +13,12 @@ namespace Assemblify.Network
         private readonly UdpClient udpClient;
         private readonly IPEndPoint multicastEndPoint;
 
-        public GameServer(int port, IPEndPoint multicastEndPoint)
+        public GameServer(int port, IPAddress multicastAddress)
             : base(port)
         {
-            udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, multicastEndPoint.Port));
+            multicastEndPoint = new IPEndPoint(multicastAddress, 0);
 
-            this.multicastEndPoint = multicastEndPoint;
+            udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, multicastEndPoint.Port));
             udpClient.JoinMulticastGroup(multicastEndPoint.Address);
         }
         ~GameServer()
